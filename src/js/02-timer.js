@@ -24,19 +24,28 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-        if (selectedDates[0] < Date.now()) {
-          Notiflix.Notify.success('Please choose a date in the future');
+  onChange(selectedDates) {
+    if (selectedDates[0] < Date.now()) {
+      refs.btnStart.disabled = true;
+      Notiflix.Report.failure('Please choose a date in the future');
     } else {
       inputDate = selectedDates[0].getTime();
       refs.btnStart.disabled = false;
-          
-     }
-
-     },
+    }
+  },
+  // onClose(selectedDates) {
+  //   if (selectedDates[0] < Date.now()) {
+  //     Notiflix.Report.failure('Please choose a date in the future');
+  //   } else {
+  //     inputDate = selectedDates[0].getTime();
+  //     refs.btnStart.disabled = false;
+  //   }
+  // },
 };
-
-flatpickr(refs.input, options);
+Notiflix.Report.init({
+  zindex: 100000000000,
+})
+  flatpickr(refs.input, options);
 
 
 
@@ -54,8 +63,9 @@ function goTimer() {
    
 
   }, 1000);
+  refs.btnStart.disabled = true;
+  refs.input.disabled = true;
 }
-
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
