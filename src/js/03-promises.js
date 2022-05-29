@@ -4,18 +4,18 @@ const refs = {
 };
 refs.form.addEventListener('submit', onSubmit);
 
-let totalDelay = 0;
+
 
 function onSubmit(e) {
   e.preventDefault();
-  const delay = e.target.elements.delay.value;
-  const step = e.target.elements.step.value;
-  const amount = e.target.elements.amount.value;
-
+  const delay = Number(e.target.elements.delay.value);
+  const step = Number(e.target.elements.step.value);
+  const amount = Number(e.target.elements.amount.value);
+let totalDelay = delay
   setTimeout(() => {
     for (let i = 1; i <= amount; i += 1) {
-      totalDelay += +step;
-      createPromise([i], totalDelay);
+          createPromise([i], totalDelay);
+        totalDelay += step;
     }
   }, delay);
 }
