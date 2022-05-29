@@ -11,13 +11,11 @@ const refs = {
   outputSeconds: document.querySelector('[data-seconds]'),
 };
 
-
-refs.btnStart.addEventListener('click', goTimer)
+refs.btnStart.addEventListener('click', goTimer);
 
 refs.btnStart.disabled = true;
 
 let inputDate = null;
-
 
 const options = {
   enableTime: true,
@@ -44,24 +42,20 @@ const options = {
 };
 Notiflix.Report.init({
   zindex: 100000000000,
-})
-  flatpickr(refs.input, options);
-
-
+});
+flatpickr(refs.input, options);
 
 function goTimer() {
-  const dateNow = Date.now()
+  const dateNow = Date.now();
   let time = inputDate - dateNow;
 
   setInterval(() => {
-    let showTime = time -= 1000;
+    let showTime = (time -= 1000);
     const { days, hours, minutes, seconds } = convertMs(showTime);
     refs.outputDays.textContent = addLeadingZero(days);
     refs.outputHours.textContent = addLeadingZero(hours);
     refs.outputMimutes.textContent = addLeadingZero(minutes);
     refs.outputSeconds.textContent = addLeadingZero(seconds);
-   
-
   }, 1000);
   refs.btnStart.disabled = true;
   refs.input.disabled = true;
