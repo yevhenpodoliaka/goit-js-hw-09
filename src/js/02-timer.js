@@ -31,14 +31,6 @@ const options = {
       refs.btnStart.disabled = false;
     }
   },
-  // onClose(selectedDates) {
-  //   if (selectedDates[0] < Date.now()) {
-  //     Notiflix.Report.failure('Please choose a date in the future');
-  //   } else {
-  //     inputDate = selectedDates[0].getTime();
-  //     refs.btnStart.disabled = false;
-  //   }
-  // },
 };
 Notiflix.Report.init({
   zindex: 100000000000,
@@ -49,16 +41,20 @@ function goTimer() {
   const dateNow = Date.now();
   let time = inputDate - dateNow;
 
-  setInterval(() => {
+  const intervalId = setInterval(() => {
     let showTime = (time -= 1000);
     const { days, hours, minutes, seconds } = convertMs(showTime);
     refs.outputDays.textContent = addLeadingZero(days);
     refs.outputHours.textContent = addLeadingZero(hours);
     refs.outputMimutes.textContent = addLeadingZero(minutes);
     refs.outputSeconds.textContent = addLeadingZero(seconds);
+  if (showTime < 1000) {
+    clearInterval(intervalId);
+    }
   }, 1000);
   refs.btnStart.disabled = true;
   refs.input.disabled = true;
+
 }
 
 function addLeadingZero(value) {
