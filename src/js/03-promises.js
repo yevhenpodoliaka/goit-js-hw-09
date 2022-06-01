@@ -12,7 +12,13 @@ function onSubmit(e) {
   let totalDelay = delay;
   setTimeout(() => {
     for (let i = 1; i <= amount; i += 1) {
-      createPromise([i], totalDelay);
+      createPromise(i, totalDelay)
+        .then(({ position, delay }) => {
+          Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        })
+        .catch(({ position, delay }) => {
+          Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        });
       totalDelay += step;
     }
   }, delay);
@@ -23,9 +29,9 @@ function createPromise(position, delay) {
     const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
       if (shouldResolve) {
-        Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        resolve({ position, delay });
       } else {
-        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        reject({ position, delay });
       }
     }, delay);
   });
